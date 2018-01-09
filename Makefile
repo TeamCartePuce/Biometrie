@@ -6,7 +6,7 @@ CFLAGS = `pkg-config --cflags opencv`
 LIBS = `pkg-config --libs opencv`
 
 biometrieExe : main.cpp imgProcessing.cpp
-	g++ $(CFLAGS) $(LIBS) -o build/$@ $<
+	g++ $(CFLAGS) $(LIBS) -o $@ $<
 
 #depend:
 #	sed '/^#DEP/q' makefile > mk.tmp
@@ -19,4 +19,4 @@ clean:
 	rm -rf *.o
 
 mrproper: clean
-	rm -rf build/biometrieExe
+	rm -rf t
