@@ -19,4 +19,4 @@ clean:
 	rm -rf *.o
 
 mrproper: clean
-	rm -rf t
+	rm -rf build/biometrieExe
