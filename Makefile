@@ -5,13 +5,13 @@
 CFLAGS = `pkg-config --cflags opencv`
 LIBS = `pkg-config --libs opencv`
 
-biometrieExe : main.cpp
-	g++ $(CFLAGS) $(LIBS) -o biometrieExe $<
+biometrieExe : main.cpp imgProcessing.cpp
+	g++ $(CFLAGS) $(LIBS) -o build/$@ $<
 
-depend:
-	sed '/^#DEP/q' makefile > mk.tmp
-	c++ -M *.C >> mk.tmp
-	mv mk.tmp makefile
+#depend:
+#	sed '/^#DEP/q' makefile > mk.tmp
+#	c++ -M *.C >> mk.tmp
+#	mv mk.tmp makefile
 
 #DEPEDENCIES : don't remove that line
 
