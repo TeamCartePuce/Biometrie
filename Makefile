@@ -5,7 +5,7 @@
 CFLAGS = `pkg-config --cflags opencv`
 LIBS = `pkg-config --libs opencv`
 
-biometrieExe : main.cpp imgProcessing.cpp
+biometrieExe : imgProcessing.cpp main.cpp
 	g++ $(CFLAGS) $(LIBS) -o $@ $<
 
 #depend:
