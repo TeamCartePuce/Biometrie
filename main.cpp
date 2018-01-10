@@ -16,7 +16,7 @@ using namespace cv;
 
 int main(int argc, char** argv)
 {
-	Mat ellipseBlanche = imread("res/ellipse_blanche.png", CV_16UC3);   // Read the file
+	Mat_<uchar> ellipseBlanche = imread("res/ellipse_blanche.png", CV_8UC3);   // Read the file
 
 	if(! ellipseBlanche.data )                              // Check for invalid input
 	{
@@ -27,11 +27,24 @@ int main(int argc, char** argv)
 	int rows = (int) ellipseBlanche.rows;
 	int cols = (int) ellipseBlanche.cols;
 
+	/* passage en niveau de gris et binarisation */
+	cv::Mat_<uchar> imgColor;
+	imgColor = imread("res/test.jpg", CV_8UC3);
+	namedWindow( "color", WINDOW_FREERATIO );// Create a window for display.
+	imshow("color", imgColor);
+	cv::Mat_<uchar> imgNDG;
+	int rowsColor = imgColor.rows;
+	int colsColor = imgColor.cols;
+	imgNDG = cv::Mat::zeros(rowsColor, colsColor, CV_8UC1);
+	namedWindow( "ndg", WINDOW_FREERATIO);
+	toolsTI::colorToNDG(&imgColor, &imgNDG);
+	imshow("ndg", imgNDG);
+
 	/* gradient horizontaux et verticaux */
-	cv::Mat ellipseBlancheGradH;
-	ellipseBlancheGradH = cv::Mat::zeros(rows, cols, CV_16UC3);
-	cv::Mat ellipseBlancheGradV;
-	ellipseBlancheGradV = cv::Mat::zeros(rows, cols, CV_16UC3);
+	cv::Mat_<uchar> ellipseBlancheGradH;
+	ellipseBlancheGradH = cv::Mat::zeros(rows, cols, CV_8UC3);
+	cv::Mat_<uchar> ellipseBlancheGradV;
+	ellipseBlancheGradV = cv::Mat::zeros(rows, cols, CV_8UC3);
 
 	toolsTI::gradientH(&ellipseBlanche, &ellipseBlancheGradH);
 	toolsTI::gradientV(&ellipseBlanche, &ellipseBlancheGradV);
