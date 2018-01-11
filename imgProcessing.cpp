@@ -22,7 +22,10 @@ void toolsTI::convertIntToUCharToDisplay(cv::Mat_<int>* imageDepart, cv::Mat_<uc
 					if(imageDepart->at<int>(i,j) > 255)
 						imageDisplayed->at<uchar>(i,j) = 255;
 					else if(imageDepart->at<int>(i,j) < 0)
-						imageDisplayed->at<uchar>(i,j) = 255;
+						imageDisplayed->at<uchar>(i,j) = 0;
+					else{
+						imageDisplayed->at<uchar>(i,j) = imageDepart->at<int>(i,j);
+					}
 			}
 		}
 }
@@ -94,6 +97,16 @@ void toolsTI::gradientV(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee)
 	convolution_3x3(imageDepart, imageArrivee, &sobelV);
 
 	~sobelV;
+}
+
+void toolsTI::calculGradientSeuille(cv::Mat_<int>* gradientH, cv::Mat_<int>* gradientV, cv::Mat_<int>* gradientSeuille){
+	int i,j;
+	for(i=0;i<gradientH->rows;i++){
+		for(j=0;j<gradientH->cols;j++){
+			gradientSeuille->at<int>(i,j) = abs(sqrt( (double)(gradientH->at<int>(i,j)*gradientH->at<int>(i,j)) + ((double)(gradientV->at<int>(i,j)*gradientV->at<int>(i,j))) ));
+			printf("gradientSeuille(%d,%d) = %f\n", i, j, gradientSeuille->at<float>(i,j));
+		}
+	}
 }
 
 void toolsTI::ndgToBinary(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee, int seuil)

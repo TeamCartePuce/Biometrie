@@ -15,6 +15,7 @@
 #include <cmath>
 
 #define PI 3.14159265
+#define SEUIL_GRADIENT 200
 
 namespace toolsTI {
 
@@ -26,6 +27,7 @@ namespace toolsTI {
 		void convolution_3x3(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee, cv::Mat_<int>* filtre);
 		void gradientH(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee);
 		void gradientV(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee);
+		void calculGradientSeuille(cv::Mat_<int>* gradientH, cv::Mat_<int>* gradientV, cv::Mat_<int>* gradientSeuille);
 
 		/* binarization */
 		void ndgToBinary(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageArrivee, int seuil);

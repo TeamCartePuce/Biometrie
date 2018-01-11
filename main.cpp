@@ -34,6 +34,8 @@ int main(int argc, char** argv)
 	toolsTI::gradientH(&imageNDG, &gradientH);
 	cv::Mat_<int> gradientV = cv::Mat_<int>(rows, cols);
 	toolsTI::gradientV(&imageNDG, &gradientV);
+	cv::Mat_<int> gradientSeuille = cv::Mat_<int>(rows, cols);
+	toolsTI::calculGradientSeuille(&gradientH, &gradientV, &gradientSeuille);
 
 	/* direction de gradient */
 
@@ -46,14 +48,38 @@ int main(int argc, char** argv)
 		dirGradient[i] = new float[cols];
 	toolsTI::directionGradient(&gradientH, &gradientV, dirGradient, rows, cols);
 
+//	int j;
+//	for(i=0;i<rows;i++){
+//		for(j=0;j<cols;j++){
+//
+//		}
+//	}
+
 
 
 	namedWindow( "ellipseBlanche", WINDOW_AUTOSIZE );// Create a window for display.
+	imshow("ellipseBlanche", imageColor );
+
 	namedWindow( "ellipseNdg", WINDOW_AUTOSIZE);
+	imshow("ellipseNdg", imageNDG);
+
+	cv::Mat_<uchar> imageGradientH = cv::Mat_<uchar>(rows,cols);
+	toolsTI::convertIntToUCharToDisplay( &gradientH, &imageGradientH, rows, cols);
+	namedWindow("gradientH", WINDOW_AUTOSIZE);
+	imshow("gradientH", imageGradientH);
+
+	cv::Mat_<uchar> imageGradientV = cv::Mat_<uchar>(rows,cols);
+	toolsTI::convertIntToUCharToDisplay( &gradientV, &imageGradientV, rows, cols);
+	namedWindow("gradientV", WINDOW_AUTOSIZE);
+	imshow("gradientV", imageGradientV);
+
+	cv::Mat_<uchar> imageGradient = cv::Mat_<uchar>(rows,cols);
+	toolsTI::convertIntToUCharToDisplay( &gradientSeuille, &imageGradient, rows, cols);
+	namedWindow("gradient", WINDOW_AUTOSIZE);
+	imshow("gradient", imageGradient);
 
 
-	imshow( "ellipseBlanche", imageColor );
-	imshow( "ellipseNdg", imageNDG);
+
 
 	waitKey(0);                                 // Wait for a keystroke in the window
 
@@ -63,6 +89,9 @@ int main(int argc, char** argv)
 	~gradientH;
 	~gradientV;
 	delete [] dirGradient;
+	~imageGradientH;
+	~imageGradientV;
+	~imageGradient;
 
 	return 0;
 }
