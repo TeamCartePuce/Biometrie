@@ -109,13 +109,19 @@ void toolsTI::colorToNDG(cv::Mat_<uchar>* imageDepart, cv::Mat_<uchar>* imageArr
 	}
 }
 
-void directionGradient(cv::Mat_<uchar>* gradientH, cv::Mat_<uchar>* gradientV, cv::Mat_<float>* directionGradient){
+void toolsTI::directionGradient(cv::Mat_<uchar>* gradientH, cv::Mat_<uchar>* gradientV, float** directionGradient, int rows, int cols){
 	int i,j;
 	for(i=0;i<gradientH->rows;i++)
 	{
 		for(j=0;j<gradientH->cols;j++)
 		{
-			directionGradient->at<cv::Vec3d>(i,j)[0] = atan( (float)gradientV->at<cv::Vec3d>(i,j)[0] / (float)gradientH->at<cv::Vec3d>(i,j)[0] );
+
+			if(gradientH->at<cv::Vec3d>(i,j)[0] != 0 && gradientV->at<cv::Vec3d>(i,j)[0] != 0) //esquive des division par 0
+			{
+				printf("testGradientH %d, testGradientV %d\n", gradientH->at<cv::Vec3d>(i,j)[0], gradientV->at<cv::Vec3d>(i,j)[0]);
+				directionGradient[i][j] = atan( (float)gradientV->at<cv::Vec3d>(i,j)[0] / (float)gradientH->at<cv::Vec3d>(i,j)[0] ) * 180 / PI;
+				printf("gradH(%f) gradV(%f) dirGrad(%d,%d) : %f\n", (float)gradientV->at<cv::Vec3d>(i,j)[0], (float)gradientH->at<cv::Vec3d>(i,j)[0], i, j, directionGradient[i][j]);
+			}
 		}
 	}
 }

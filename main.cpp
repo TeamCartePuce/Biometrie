@@ -43,11 +43,23 @@ int main(int argc, char** argv)
 	/* gradient horizontaux et verticaux */
 	cv::Mat_<uchar> ellipseBlancheGradH;
 	ellipseBlancheGradH = cv::Mat::zeros(rows, cols, CV_8UC3);
+	toolsTI::gradientH(&ellipseBlanche, &ellipseBlancheGradH);
 	cv::Mat_<uchar> ellipseBlancheGradV;
 	ellipseBlancheGradV = cv::Mat::zeros(rows, cols, CV_8UC3);
-
-	toolsTI::gradientH(&ellipseBlanche, &ellipseBlancheGradH);
 	toolsTI::gradientV(&ellipseBlanche, &ellipseBlancheGradV);
+
+	/* direction de gradient */
+
+	// changer par un tableau a double entrée + dessiner les droites (ds un premier temps)
+	// ptet faire gaffe au sens de rotation -> pi/2
+	float** dirGradient;
+	dirGradient = new float*[rows];
+	int i;
+	for(i=0;i<rows;i++)
+		dirGradient[i] = new float[cols];
+	toolsTI::directionGradient(&ellipseBlancheGradH, &ellipseBlancheGradV, dirGradient, rows, cols);
+
+
 
 	namedWindow( "ellipseBlanche", WINDOW_AUTOSIZE );// Create a window for display.
 	namedWindow( "ellipseBlancheGrad_H", WINDOW_AUTOSIZE);
