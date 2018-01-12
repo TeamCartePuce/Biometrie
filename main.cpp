@@ -16,7 +16,7 @@ using namespace cv;
 
 int main(int argc, char** argv)
 {
-	Mat_<uchar> imageColor = imread("res/ellipse_blanche.jpg", CV_8UC3);   // Read the file
+	Mat_<uchar> imageColor = imread("res/rond_noir.png", CV_8UC3);   // Read the file
 	Mat_<int> imageNDG = Mat_<int>(imageColor.rows,imageColor.cols);
 	toolsTI::convertUCharToNDGInt(&imageColor, &imageNDG);
 
@@ -67,18 +67,27 @@ int main(int argc, char** argv)
 	cv::Mat_<uchar> imageGradient = cv::Mat_<uchar>(rows,cols);
 	toolsTI::convertIntToUCharToDisplay( &gradientSeuille, &imageGradient, rows, cols);
 
-
 	/* draw gradient direction on gradient image */
 	for(i=0;i<rows;i++){
 		for(j=0;j<cols;j++){
 			if(gradientSeuille.at<int>(i,j) > SEUIL_GRADIENT)
 			{
+				if(i<rows/2){
+					cv::Point p1 = cv::Point(j,i);
+					cv::Point p2 = cv::Point();
+					p2.x = gradientSeuille.at<int>(i,j)*(-cos(dirGradient[i][j])) + p1.x;
+					p2.y = gradientSeuille.at<int>(i,j)*(-sin(dirGradient[i][j])) + p1.y;
+					cv::line(imageGradient, p1, p2, Scalar( 255, 0, 255 ),1,LINE_AA,0);
+				}
+				else
+				{
+					cv::Point p1 = cv::Point(j,i);
+					cv::Point p2 = cv::Point();
+					p2.x = gradientSeuille.at<int>(i,j)*cos(dirGradient[i][j]) + p1.x;
+					p2.y = gradientSeuille.at<int>(i,j)*sin(dirGradient[i][j]) + p1.y;
+					cv::line(imageGradient, p1, p2, Scalar( 255, 0, 255 ),1,LINE_AA,0);
 
-				cv::Point p1 = cv::Point(j,i);
-				cv::Point p2 = cv::Point();
-				p2.x = gradientSeuille.at<int>(i,j)*cos(dirGradient[i][j]) + p1.x;
-				p2.y = gradientSeuille.at<int>(i,j)*sin(dirGradient[i][j]) + p1.y;
-				cv::line(imageGradient, p1, p2, Scalar( 255, 0, 255 ),1,LINE_AA,0);
+				}
 			}
 		}
 	}

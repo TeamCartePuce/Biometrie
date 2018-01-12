@@ -19,6 +19,7 @@ void toolsTI::convertIntToUCharToDisplay(cv::Mat_<int>* imageDepart, cv::Mat_<uc
 	int i,j,k;
 		for(i=0;i<rows;i++){
 			for(j=0;j<cols;j++){
+					imageDepart->at<int>(i,j) = abs(imageDepart->at<int>(i,j));
 					if(imageDepart->at<int>(i,j) > 255)
 						imageDisplayed->at<uchar>(i,j) = 255;
 					else if(imageDepart->at<int>(i,j) < 0)
@@ -58,7 +59,7 @@ void toolsTI::convolution_3x3(cv::Mat_<int>* imageDepart, cv::Mat_<int>* imageAr
 			}
 			//			if(somme != 0)
 			//				printf("\n\nPixel(%d,%d), somme : %d\n\n", i,j,somme);
-			imageArrivee->at<int>(i,j) = abs(somme/9);
+			imageArrivee->at<int>(i,j) = somme/9;
 		}
 	}
 }
@@ -104,7 +105,7 @@ void toolsTI::calculGradientSeuille(cv::Mat_<int>* gradientH, cv::Mat_<int>* gra
 	for(i=0;i<gradientH->rows;i++){
 		for(j=0;j<gradientH->cols;j++){
 			gradientSeuille->at<int>(i,j) = sqrt( (double)(gradientH->at<int>(i,j)*gradientH->at<int>(i,j)) + ((double)(gradientV->at<int>(i,j)*gradientV->at<int>(i,j))) );
-			printf("gradientSeuille(%d,%d) = %f\n", i, j, gradientSeuille->at<float>(i,j));
+			printf("gradientSeuille(%d,%d) = %f\n", i, j, gradientSeuille->at<int>(i,j));
 		}
 	}
 }
@@ -162,9 +163,11 @@ void toolsTI::directionGradient(cv::Mat_<int>* gradientH, cv::Mat_<int>* gradien
 		{
 			if(gradientH->at<int>(i,j) != 0) //esquive des division par 0
 			{
-				directionGradient[i][j] = (atan( (float)gradientV->at<int>(i,j) / (float)gradientH->at<int>(i,j)) *180/PI);
+				directionGradient[i][j] = (atan( (float)gradientV->at<int>(i,j) / (float)gradientH->at<int>(i,j)) - PI/2);
 				printf("gradH(%f) gradV(%f) dirGrad(%d,%d) : %f\n", (float)gradientV->at<int>(i,j), (float)gradientH->at<int>(i,j), i, j, directionGradient[i][j]*180/PI);
 			}
 		}
 	}
 }
+
+
