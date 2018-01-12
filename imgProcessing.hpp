@@ -15,7 +15,7 @@
 #include <cmath>
 
 #define PI 3.14159265
-#define SEUIL_GRADIENT 200
+#define SEUIL_GRADIENT 120
 
 namespace toolsTI {
 

@@ -103,7 +103,7 @@ void toolsTI::calculGradientSeuille(cv::Mat_<int>* gradientH, cv::Mat_<int>* gra
 	int i,j;
 	for(i=0;i<gradientH->rows;i++){
 		for(j=0;j<gradientH->cols;j++){
-			gradientSeuille->at<int>(i,j) = abs(sqrt( (double)(gradientH->at<int>(i,j)*gradientH->at<int>(i,j)) + ((double)(gradientV->at<int>(i,j)*gradientV->at<int>(i,j))) ));
+			gradientSeuille->at<int>(i,j) = sqrt( (double)(gradientH->at<int>(i,j)*gradientH->at<int>(i,j)) + ((double)(gradientV->at<int>(i,j)*gradientV->at<int>(i,j))) );
 			printf("gradientSeuille(%d,%d) = %f\n", i, j, gradientSeuille->at<float>(i,j));
 		}
 	}
@@ -162,7 +162,7 @@ void toolsTI::directionGradient(cv::Mat_<int>* gradientH, cv::Mat_<int>* gradien
 		{
 			if(gradientH->at<int>(i,j) != 0) //esquive des division par 0
 			{
-				directionGradient[i][j] = atan( (float)gradientV->at<int>(i,j) / (float)gradientH->at<int>(i,j));
+				directionGradient[i][j] = (atan( (float)gradientV->at<int>(i,j) / (float)gradientH->at<int>(i,j)) *180/PI);
 				printf("gradH(%f) gradV(%f) dirGrad(%d,%d) : %f\n", (float)gradientV->at<int>(i,j), (float)gradientH->at<int>(i,j), i, j, directionGradient[i][j]*180/PI);
 			}
 		}
